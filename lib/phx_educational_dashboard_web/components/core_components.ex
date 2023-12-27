@@ -41,7 +41,7 @@ defmodule PhxEducationalDashboardWeb.CoreComponents do
   attr :on_cancel, JS, default: %JS{}
   slot :inner_block, required: true
 
-  def modal(assigns) do
+  def xmodal(assigns) do
     ~H"""
     <div
       id={@id}
@@ -225,7 +225,7 @@ defmodule PhxEducationalDashboardWeb.CoreComponents do
 
   slot :inner_block, required: true
 
-  def button(assigns) do
+  def xbutton(assigns) do
     ~H"""
     <button
       type={@type}
@@ -466,7 +466,7 @@ defmodule PhxEducationalDashboardWeb.CoreComponents do
 
   slot :action, doc: "the slot for showing user actions in the last table column"
 
-  def table(assigns) do
+  def xtable(assigns) do
     assigns =
       with %{rows: %Phoenix.LiveView.LiveStream{}} <- assigns do
         assign(assigns, row_id: assigns.row_id || fn {id, _item} -> id end)

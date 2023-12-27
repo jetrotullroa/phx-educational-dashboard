@@ -92,6 +92,7 @@ defmodule PhxEducationalDashboardWeb do
 
       # Routes generation with the ~p sigil
       unquote(verified_routes())
+      use PetalComponents
     end
   end
 

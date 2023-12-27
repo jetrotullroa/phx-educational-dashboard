@@ -1,6 +1,7 @@
 // See the Tailwind configuration guide for advanced usage
 // https://tailwindcss.com/docs/configuration
 
+const colors = require("tailwindcss/colors"); 
 const plugin = require("tailwindcss/plugin")
 const fs = require("fs")
 const path = require("path")
@@ -9,13 +10,24 @@ module.exports = {
   content: [
     "./js/**/*.js",
     "../lib/phx_educational_dashboard_web.ex",
-    "../lib/phx_educational_dashboard_web/**/*.*ex"
+    "../lib/phx_educational_dashboard_web/**/*.*ex",
+    "../deps/petal_components/**/*.*ex",
   ],
   theme: {
     extend: {
+
+      // ADD THESE COLORS (can pick different ones from here: https://tailwindcss.com/docs/customizing-colors)
       colors: {
-        brand: "#FD4F00",
-      }
+        primary: colors.blue,
+        secondary: colors.pink,
+        success: colors.green,
+        danger: colors.red,
+        warning: colors.yellow,
+        info: colors.sky,
+
+        // Options: slate, gray, zinc, neutral, stone
+        gray: colors.gray,
+      },
     },
   },
   plugins: [
