@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title suffix=" · Phoenix Framework">
-      <%= assigns[:page_title] || "PhxEducationalDashboard" %>
+    <.live_title suffix=" · Educational Dashboard">
+      <%= assigns[:page_title] || "ED" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
@@ -16,7 +16,19 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js">
     </script>
   </head>
-  <body class="bg-white antialiased">
+  <header class="navbar bg-gradient-to-r from-teal-200 to-sky-400 z-50 py-4 px-8 flex flex-row items-center justify-between">
+    <div class="navbar-start">
+      <.link href="/" class="btn btn-ghost normal-case text-xl">
+        <strong class="text-accent text-4xl">ED</strong>
+      </.link>
+    </div>
+    <div class="navbar-end">
+      <.link href="/" class="btn btn-ghost normal-case text-xl">
+        <div>Dashboard</div>
+      </.link>
+    </div>
+  </header>
+  <body class="antialiased">
     <%= @inner_content %>
   </body>
 </html>
