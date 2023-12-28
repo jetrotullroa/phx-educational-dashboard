@@ -2,7 +2,7 @@ import Config
 
 # Configure your database
 config :phx_educational_dashboard, PhxEducationalDashboard.Repo,
-  username: "postgres",
+  username: "jetroa",
   password: "postgres",
   hostname: "localhost",
   database: "phx_educational_dashboard_dev",

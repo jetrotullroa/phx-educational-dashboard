@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="[scrollbar-gutter:stable]">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,12 +23,12 @@
       </.link>
     </div>
     <div class="navbar-end">
-      <.link href="/" class="btn btn-ghost normal-case text-xl">
+      <.link href="/dashboard" class="btn btn-ghost normal-case text-xl">
         <div>Dashboard</div>
       </.link>
     </div>
   </header>
-  <body class="antialiased">
+  <body class="antialiased h-screen w-screen overflow-hidden">
     <%= @inner_content %>
   </body>
 </html>
