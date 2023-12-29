@@ -19,13 +19,13 @@ defmodule PhxEducationalDashboardWeb.Router do
 
     get "/", PageController, :home
     live "/dashboard", DashboardLive.Index, :index
+    live "/students", StudentLive.Index, :index
   end
 
   # Other scopes may use custom stacks.
   # scope "/api", PhxEducationalDashboardWeb do
   #   pipe_through :api
   # end
-
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:phx_educational_dashboard, :dev_routes) do
