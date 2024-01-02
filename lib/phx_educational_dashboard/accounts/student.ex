@@ -16,5 +16,7 @@ defmodule PhxEducationalDashboard.Accounts.Student do
     student
     |> cast(attrs, [:name, :year])
     |> validate_required([:name, :year])
+    |> unique_constraint(:name)
+    |> validate_number(:year, greater_than_or_equal_to: 1, less_than_or_equal_to: 4)
   end
 end
