@@ -7,10 +7,13 @@ defmodule PhxEducationalDashboardWeb.StudentLive.Index do
 
   def render(assigns) do
     ~H"""
-    <div class="container">
-      <div class="row">
+    <div id="students">
+      <div class="row flex items-center justify-between">
         <div class="col-12">
-          <h1>Student Live</h1>
+          <h1 class="text-4xl text-accent font-semibold">Students</h1>
+        </div>
+        <div>
+          <.button color="primary" label="Add Student" />
         </div>
       </div>
     </div>

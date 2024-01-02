@@ -1,7 +1,11 @@
 <main class="m-0 p-0 grid grid-cols-7 gap-4 h-screen">
-  <div class="col-span-1">QWE</div>
+  <div class="col-span-1">
+    <.live_component module={PhxEducationalDashboardWeb.Components.SideNav} id="sidenav" />
+  </div>
   <div class="col-span-6 h-full w-full bg-slate-100">
     <.flash_group flash={@flash} />
-    <%= @inner_content %>
+    <div class="pl-8 pt-8 pb-4 pr-4">
+      <%= @inner_content %>
+    </div>
   </div>
 </main>
