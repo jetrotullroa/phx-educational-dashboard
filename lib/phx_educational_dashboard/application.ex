@@ -10,7 +10,8 @@ defmodule PhxEducationalDashboard.Application do
     children = [
       PhxEducationalDashboardWeb.Telemetry,
       PhxEducationalDashboard.Repo,
-      {DNSCluster, query: Application.get_env(:phx_educational_dashboard, :dns_cluster_query) || :ignore},
+      {DNSCluster,
+       query: Application.get_env(:phx_educational_dashboard, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: PhxEducationalDashboard.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: PhxEducationalDashboard.Finch},

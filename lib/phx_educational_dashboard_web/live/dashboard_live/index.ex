@@ -9,7 +9,7 @@ defmodule PhxEducationalDashboardWeb.DashboardLive.Index do
   @impl true
   def render(assigns) do
     ~H"""
-      <div>Dashboard</div>
+    <div>Dashboard</div>
     """
   end
 end

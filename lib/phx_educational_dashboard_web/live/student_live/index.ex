@@ -6,13 +6,13 @@ defmodule PhxEducationalDashboardWeb.StudentLive.Index do
 
   def mount(_params, _session, socket) do
     changeset = Student.changeset(%Student{}, %{})
-
-    IO.inspect(to_form(changeset))
+    students = Repo.all(Student)
 
     {:ok,
      socket
      |> assign(:student_form, false)
-     |> assign(:form, to_form(changeset))}
+     |> assign(:form, to_form(changeset))
+     |> assign(:students, students)}
   end
 
   def render(assigns) do
@@ -55,6 +55,25 @@ defmodule PhxEducationalDashboardWeb.StudentLive.Index do
             <.button color="primary" label="Save" type="submit" />
           </div>
         </.form>
+      </div>
+      <div>
+        <.table class="w-100 mt-8">
+          <.tr>
+            <.th colspan="3">Student Name</.th>
+            <.th colspan="1">Year</.th>
+            <.th colspan="2" class="text-right"></.th>
+          </.tr>
+          <div :if={@students !== []}>
+            <.tr :for={student <- @students}>
+              <.td colspan="3"><%= student.name %></.td>
+              <.td colspan="1"><%= student.year %></.td>
+              <.td colspan="2" class="text-right">
+                <.button color="primary" label="Edit" />
+                <.button color="danger" label="Delete" />
+              </.td>
+            </.tr>
+          </div>
+        </.table>
       </div>
     </div>
     """
