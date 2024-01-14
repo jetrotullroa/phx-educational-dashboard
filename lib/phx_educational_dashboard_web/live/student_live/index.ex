@@ -12,7 +12,7 @@ defmodule PhxEducationalDashboardWeb.StudentLive.Index do
      socket
      |> assign(:student_form, false)
      |> assign(:form, to_form(changeset))
-     |> assign(:students, students)}
+     |> stream(:students, students)}
   end
 
   def render(assigns) do
@@ -60,17 +60,20 @@ defmodule PhxEducationalDashboardWeb.StudentLive.Index do
         <.table class="w-100 mt-8">
           <.tr>
             <.th colspan="3">Student Name</.th>
-            <.th colspan="1">Year</.th>
-            <.th colspan="2" class="text-right"></.th>
+            <.th colspan="2">Year</.th>
+            <.th colspan="1" class="text-right"></.th>
           </.tr>
-          <div :if={@students !== []}>
-            <.tr :for={student <- @students}>
+          <div id="students-list" phx-update="stream">
+            <.tr :for={{student_id, student} <- @streams.students} id={student_id} :if={!empty_student_list(@streams.students)}>
               <.td colspan="3"><%= student.name %></.td>
-              <.td colspan="1"><%= student.year %></.td>
-              <.td colspan="2" class="text-right">
+              <.td colspan="2"><%= student.year %></.td>
+              <.td colspan="1" class="text-right">
                 <.button color="primary" label="Edit" />
                 <.button color="danger" label="Delete" />
               </.td>
+            </.tr>
+            <.tr :if={empty_student_list(@streams.students)}>
+              <.td colspan="6" class="text-center">No students found. Please create a new one.</.td>
             </.tr>
           </div>
         </.table>
@@ -91,11 +94,16 @@ defmodule PhxEducationalDashboardWeb.StudentLive.Index do
     changeset = Student.changeset(%Student{}, student_params)
 
     case Repo.insert(changeset) do
-      {:ok, _student} ->
-        {:noreply, assign(socket, :student_form, false)}
+      {:ok, student} ->
+        {:noreply,
+         socket
+         |> stream_insert(:students, student, at: -1)}
+         |> assign(:student_form, false)
 
       {:error, changeset} ->
         {:noreply, assign(socket, :form, to_form(changeset))}
     end
   end
+
+  defp empty_student_list(students), do: students == []
 end
