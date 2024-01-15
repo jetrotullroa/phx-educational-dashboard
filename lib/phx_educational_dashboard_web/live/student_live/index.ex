@@ -30,6 +30,7 @@ defmodule PhxEducationalDashboardWeb.StudentLive.Index do
         <.form for={@form} phx-submit="on_submit">
           <div class="grid grid-cols-7 gap-4 w-full">
             <div class="col-span-6 w-full">
+              <.field type="hidden" name="id" field={@form[:id]} />
               <.field
                 label="Student Name"
                 name="name"
@@ -64,11 +65,15 @@ defmodule PhxEducationalDashboardWeb.StudentLive.Index do
             <.th colspan="1" class="text-right"></.th>
           </.tr>
           <div id="students-list" phx-update="stream">
-            <.tr :for={{student_id, student} <- @streams.students} id={student_id} :if={!empty_student_list(@streams.students)}>
+            <.tr
+              :for={{student_id, student} <- @streams.students}
+              :if={!empty_student_list(@streams.students)}
+              id={student_id}
+            >
               <.td colspan="3"><%= student.name %></.td>
               <.td colspan="2"><%= student.year %></.td>
               <.td colspan="1" class="text-right">
-                <.button color="primary" label="Edit" />
+                <.button color="primary" label="Edit" phx-click="show_form" phx-value-id={student.id} />
                 <.button color="danger" label="Delete" />
               </.td>
             </.tr>
@@ -82,23 +87,36 @@ defmodule PhxEducationalDashboardWeb.StudentLive.Index do
     """
   end
 
+  def handle_event("show_form", %{"id" => id}, socket) do
+    student = Repo.get(Student, id)
+    changeset = Student.changeset(student, %{})
+
+    {:noreply,
+     assign(socket, :student_form, true)
+     |> assign(:form, to_form(changeset))}
+  end
+
   def handle_event("show_form", _, socket) do
     {:noreply, assign(socket, :student_form, true)}
   end
 
   def handle_event("hide_form", _, socket) do
-    {:noreply, assign(socket, :student_form, false)}
+    changeset = Student.changeset(%Student{}, %{})
+    {:noreply, socket |> assign(form: to_form(changeset)) |> assign(student_form: false)}
   end
 
-  def handle_event("on_submit", student_params, socket) do
+  def handle_event("on_submit", %{"id" => student_id} = student_params, socket) do
     changeset = Student.changeset(%Student{}, student_params)
 
-    case Repo.insert(changeset) do
+    case Repo.insert_or_update(changeset) do
       {:ok, student} ->
+        at = if student_id != nil, do: student_id, else: -1
+
         {:noreply,
          socket
-         |> stream_insert(:students, student, at: -1)}
-         |> assign(:student_form, false)
+         |> stream_insert(:students, student, at: at)
+         |> assign(:form, to_form(Student.changeset(%Student{}, %{})))
+         |> assign(:student_form, false)}
 
       {:error, changeset} ->
         {:noreply, assign(socket, :form, to_form(changeset))}
